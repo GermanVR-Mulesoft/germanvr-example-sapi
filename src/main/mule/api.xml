@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<http:listener-config name="HTTP_SAPI"
+		doc:name="HTTP Listener config"
+		doc:id="7bbce3b5-d25e-467f-a22c-73708adbdf3f">
+		<http:listener-connection host="0.0.0.0"
+			port="8081" />
+	</http:listener-config>
+	<flow name="test-ghe-sapi"
+		doc:id="edd5d246-602e-44b1-9f35-681ff7a2f6fb">
+		<http:listener doc:name="Listener"
+			doc:id="95c0bf86-0d4d-4fdf-b722-7233d219361e" path="/sapi"
+			config-ref="HTTP_SAPI">
+			<http:response
+				statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:response>
+			<http:error-response
+				statusCode="#[vars.httpStatus default 500]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+		<logger level="INFO" doc:name="Start SAPI"
+			doc:id="82c8afe5-9b68-498a-9c48-b88d14cfc942" message="Start SAPI" />
+		<set-variable
+			value="#[attributes.queryParams.status default 200]"
+			doc:name="queryParams.status"
+			doc:id="76110bb9-6597-43fb-9489-97d33d174a67" variableName="status" />
+		<ee:transform doc:name="requestConfig"
+			doc:id="c7988020-969f-434f-bd94-1d34180773c3">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="requestConfig"><![CDATA[%dw 2.0
+output application/json
+---
+{
+	flowName: "get-httpbin-client"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="dynamic-method-client"
+			doc:id="016c09f9-0476-4d8b-b943-10d22ba28c0e"
+			name="dynamic-manage-request" />
+		<logger level="INFO" doc:name="End SAPI"
+			doc:id="733c9bb3-ffd2-4223-b64a-b797d78dcfc2" message="End SAPI" />
+	</flow>
+
+</mule>

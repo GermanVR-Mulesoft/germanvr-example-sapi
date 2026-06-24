@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="get-httpbin-client"
+		doc:id="2c890e3e-4ef8-4f62-85cc-43d10adf4393">
+		<http:request doc:name="Request to LEGACY SYSTEM"
+			doc:id="7f8d0e75-2616-43b1-9367-32a4cf0ebb5e"
+			config-ref="HTTP_Request_config_LEGACY_SYSTEM"
+			path='#["/status/" ++ vars.status]' />
+	</sub-flow>
+</mule>

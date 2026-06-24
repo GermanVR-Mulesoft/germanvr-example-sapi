@@ -1,0 +1,19 @@
+# GLOBAL ERROR HANDLER LIB CONFIGURATION
+app:
+  namespace:
+    current: GERMANVR-EX-SAPI
+    client: BIN_ORG
+    
+  metadata:
+    showApplication: "true"
+    showErrorChain: "true"
+    showDetails: "true"
+    
+# RESILIENT REQUEST LIB CONFIGURATION
+request:
+    logs:
+        verbose: "false"
+        requestPayload: "false"
+        responsePayload: "false"
+        payloadMaxLength: "5000"
+    

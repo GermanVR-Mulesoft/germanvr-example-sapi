@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<error-handler name="trasistant-error-handler"
+		doc:id="eee6a010-2a77-445e-afe2-25188d88d066">
+		<on-error-propagate enableNotifications="true"
+			logException="false" doc:name="On Error Propagate"
+			doc:id="9eb45c74-2c54-42a9-abe1-e01ed1595ec6" type="ANY"
+			when='#[error.errorType.identifier == "UNKNOWN"]'>
+			<logger level="INFO" doc:name="Logger"
+				doc:id="221fafef-f89f-4b87-a7d2-50180239c268"
+				message='#["Error Ocurred: " ++ error.description]' />
+		</on-error-propagate>
+	</error-handler>
+</mule>

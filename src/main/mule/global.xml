@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<import doc:name="Import"
+		doc:id="08e25d32-bb39-4607-909e-af71402500f9"
+		file="global-error-handler-library.xml" />
+	<import doc:name="Import"
+		doc:id="acc34dc5-09b4-4292-99e4-89883f9ea239"
+		file="dynamic-request-flow.xml" />
+	<configuration doc:name="Configuration"
+		doc:id="f1a6e421-84f5-4c70-90c7-dbb084484faa"
+		defaultErrorHandler-ref="global-error-handler" />
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="c7e5f9f0-d5ef-41f2-8214-06081bf5ac2c"
+		file="config/common-config.yaml" />
+	<http:request-config
+		name="HTTP_Request_config_LEGACY_SYSTEM"
+		doc:name="HTTP Request config"
+		doc:id="6cad141f-ae70-4f95-8e34-d40c50d06dae">
+		<http:request-connection host="httpbin.org"
+			protocol="HTTPS" />
+	</http:request-config>
+
+</mule>
